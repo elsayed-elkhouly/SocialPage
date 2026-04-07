@@ -20,16 +20,16 @@ const NavBar = () => {
         </div>
 
         <nav className="hidden items-center gap-10 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-sm font-medium text-white/85 transition hover:text-[#d4a63f] scroll-smooth"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+  {navItems.map((item) => (
+    <Link
+      key={item.label}
+      href={item.href}
+      className="text-sm font-medium text-white/85 transition hover:text-[#d4a63f]"
+    >
+      {item.label}
+    </Link>
+  ))}
+</nav>
 
         <Link
           href="#"
