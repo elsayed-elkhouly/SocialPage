@@ -73,15 +73,7 @@ const Carousl1 = () => {
             </p>
           </div>
 
-        <Carousel>
-  <CarouselContent>
-    <CarouselItem>...</CarouselItem>
-    <CarouselItem>...</CarouselItem>
-    <CarouselItem>...</CarouselItem>
-  </CarouselContent>
-  <CarouselPrevious />
-  <CarouselNext />
-</Carousel>
+       
         </div>
       </section>
   )
