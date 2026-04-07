@@ -73,7 +73,7 @@ function PlanCard({ plan }: { plan: Plan }) {
     return (
         <div
             className={[
-                "plan-card relative flex min-h-[620px] flex-col rounded-3xl border bg-linear-to-b p-6 text-white transition-all duration-300",
+                "plan-card relative flex min-h-[560px] md:min-h-[620px] flex-col rounded-3xl border bg-linear-to-b p-5 md:p-6 text-white transition-all duration-300",
                 featured
                     ? "featured-card border-[#d2aa48] from-[#10284d] to-[#091c36] shadow-[0_0_0_1px_rgba(210,170,72,0.35),0_0_24px_rgba(210,170,72,0.18)]"
                     : "border-[#22385f] from-[#10284d] to-[#091c36] shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
@@ -87,7 +87,7 @@ function PlanCard({ plan }: { plan: Plan }) {
                 </div>
             )}
 
-            <div className="flex-1">
+            <div className="flex flex-1 flex-col">
                 <div className="plan-head pt-4 text-center">
                     <h3 className="text-[24px] font-extrabold md:text-[28px]">
                         {plan.name}
@@ -95,14 +95,14 @@ function PlanCard({ plan }: { plan: Plan }) {
                     <p className="mt-2 text-sm text-white/60">{plan.subtitle}</p>
                 </div>
 
-                <div className="plan-price mt-8 text-center">
+                <div className="plan-price mt-6 md:mt-8 text-center">
                     {plan.price === "حسب الطلب" ? (
                         <div className="text-[28px] font-extrabold text-[#d2aa48] md:text-[40px]">
                             حسب الطلب
                         </div>
                     ) : (
                         <div className="flex items-end justify-center gap-2">
-                            <span className="text-[48px] font-extrabold leading-none md:text-[54px]">
+                            <span className="text-[42px] font-extrabold leading-none md:text-[54px]">
                                 {plan.price}
                             </span>
                             <span className="mb-1 text-base text-white/70">
@@ -112,11 +112,11 @@ function PlanCard({ plan }: { plan: Plan }) {
                     )}
                 </div>
 
-                <ul className="mt-8 space-y-4 text-right">
+                <ul className="mt-6 space-y-3 text-right md:mt-8 md:space-y-4">
                     {plan.features.map((feature, index) => (
                         <li
                             key={feature}
-                            className="feature-row flex items-center justify-start gap-3 text-[15px] text-white"
+                            className="feature-row flex items-center justify-start gap-3 text-[14px] text-white md:text-[15px]"
                             data-index={index}
                         >
                             <FaRegCheckCircle className="shrink-0 text-[#d2aa48]" />
@@ -124,19 +124,19 @@ function PlanCard({ plan }: { plan: Plan }) {
                         </li>
                     ))}
                 </ul>
-            </div>
 
-            <div className="pt-6">
-                <button
-                    className={[
-                        "plan-btn h-12 w-full rounded-[10px] border text-sm font-bold transition",
-                        featured
-                            ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
-                            : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
-                    ].join(" ")}
-                >
-                    {plan.buttonText}
-                </button>
+                <div className="mt-auto pt-6">
+                    <button
+                        className={[
+                            "plan-btn h-12 md:h-14 w-full rounded-[10px] border text-sm md:text-base font-bold transition",
+                            featured
+                                ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
+                                : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
+                        ].join(" ")}
+                    >
+                        {plan.buttonText}
+                    </button>
+                </div>
             </div>
         </div>
     );
@@ -151,7 +151,6 @@ export default function PricingSection() {
             const featuredCard = document.querySelector(".featured-card");
             const badge = document.querySelector(".badge-popular");
 
-            // دخول السكشن
             gsap.set(cards, {
                 y: 120,
                 opacity: 0,
@@ -221,11 +220,11 @@ export default function PricingSection() {
                 gsap.fromTo(
                     featuredCard,
                     {
-                        y: -10,
+                        y: 0,
                         boxShadow: "0 0 0 1px rgba(210,170,72,0.25), 0 0 12px rgba(210,170,72,0.10)",
                     },
                     {
-                        y: -40,
+                        y: -30,
                         boxShadow: "0 0 0 1px rgba(210,170,72,0.4), 0 0 36px rgba(210,170,72,0.22)",
                         duration: 3.2,
                         repeat: -1,
@@ -243,7 +242,6 @@ export default function PricingSection() {
                 );
             }
 
-            // Hover قوي وشيك
             cards.forEach((card) => {
                 const isFeatured = card.classList.contains("featured-card");
 
