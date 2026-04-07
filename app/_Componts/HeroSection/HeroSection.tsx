@@ -111,12 +111,12 @@ const fadeLeft: Variants = {
             className="mt-8 flex flex-col gap-4 sm:flex-row"
           >
             <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
-              <Link
+              {/* <Link
                 href="#"
                 className="inline-flex min-w-42.5 items-center justify-center rounded-xl bg-[#c9a24a] px-8 py-4 text-base font-bold text-[#061937] transition hover:opacity-90"
               >
                 ابدأ الآن
-              </Link>
+              </Link> */}
             </motion.div>
 
             <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
