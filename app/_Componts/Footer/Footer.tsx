@@ -122,7 +122,7 @@ const Footer = () => {
                       href="tel:01553132233"
                       className="text-base text-white transition hover:text-[#d2aa48]"
                     >
-                      01553132233
+                      01101063100
                     </a>
                   </div>
                 </div>

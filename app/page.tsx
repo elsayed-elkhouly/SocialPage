@@ -200,7 +200,7 @@ export default function Home() {
               </Link> */}
 
               <Link
-                href="https://wa.me/201553132233?text=مرحباً، أريد التحدث مع فريق المبيعات"
+                href="https://wa.me/201101063100?text=مرحباً، أريد التحدث مع فريق المبيعات"
                 target="_blank"
                 className="rounded-xl border border-[#d2aa48] bg-white px-8 py-4 text-sm font-bold text-[#0a1b35] transition hover:bg-[#f3ead7]"
               >

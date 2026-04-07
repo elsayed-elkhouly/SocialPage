@@ -121,7 +121,8 @@ const fadeLeft: Variants = {
 
             <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
               <Link
-                href="#"
+                href="https://wa.me/201101063100?text=مرحباً، أريد التحدث مع فريق المبيعات"
+                target="_blank"
                 className="inline-flex min-w-42.5 items-center justify-center rounded-xl border border-[#d4af57] bg-white px-8 py-4 text-base font-bold text-[#b78c2f] transition hover:bg-[#f8f3e8]"
               >
                 طلب عرض توضيحي
