@@ -20,19 +20,21 @@ const NavBar = () => {
         </div>
 
         <nav className="hidden items-center gap-10 md:flex">
-  {navItems.map((item) => (
-    <Link
-      key={item.label}
-      href={item.href}
-      className="text-sm font-medium text-white/85 transition hover:text-[#d4a63f]"
-    >
-      {item.label}
-    </Link>
-  ))}
-</nav>
+          {navItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="text-sm font-medium text-white/85 transition hover:text-[#d4a63f]"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
         <Link
-          href="#"
+          href="https://wa.me/201101063100?text=مرحباً، أريد التحدث مع فريق المبيعات"
+          target="_blank"
+
           className="rounded-md bg-[#d4a63f] px-4 py-2 text-sm font-semibold text-[#071a33] transition hover:opacity-90"
         >
           ابدأ الآن

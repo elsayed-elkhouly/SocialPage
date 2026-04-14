@@ -1,148 +1,181 @@
 "use client";
-
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { FaRegCheckCircle } from "react-icons/fa";
+import Link from "next/link";
 
-type Plan = {
+
+
+
+
+type ApiPlan = {
+    _id: string;
     name: string;
-    subtitle: string;
-    price: string;
-    period?: string;
-    features: string[];
-    buttonText: string;
-    featured?: boolean;
+    description: string;
+    monthlyPrice: number;
+    yearlyPrice: number;
+    currency: string;
+    monthlyPriceAfterDiscount?: number;
+    offer?: {
+        label: string;
+        discountPercent: number;
+        validUntil: string;
+        isActive: boolean;
+    };
+    features: {
+        key: string;
+        label: string;
+        valueType: string;
+        defaultValue: boolean | number;
+        visible: boolean;
+    }[];
+    isActive: boolean;
+    isPopular: boolean;
+    sortOrder: number;
 };
 
-const plans: Plan[] = [
-    {
-        name: "الباقة الأساسية",
-        subtitle: "مثالية للمحامين المستقلين والمكاتب الصغيرة",
-        price: "50",
-        period: "دولار / شهريًا",
-        features: [
-            "حتى 50 قضية نشطة",
-            "100 عميل",
-            "2 مستخدم",
-            "إدارة القضايا والعملاء",
-            "التقويم القانوني",
-            "إدارة المهام",
-            "5 جيجا تخزين",
-        ],
-        buttonText: "ابدأ الآن",
-    },
-    {
-        name: "الباقة الاحترافية",
-        subtitle: "الأنسب للمكاتب المتوسطة والشركاء",
-        price: "100",
-        period: "دولار / شهريًا",
-        features: [
-            "قضايا غير محدودة",
-            "عملاء غير محدودين",
-            "10 مستخدمين",
-            "جميع مميزات الباقة الأساسية",
-            "إدارة الفواتير والمدفوعات",
-            "إدارة الرواتب",
-            "نظام الحجز الأونلاين",
-            "50 جيجا تخزين",
-        ],
-        buttonText: "ابدأ الآن",
-        featured: true,
-    },
-    {
-        name: "باقة المؤسسات",
-        subtitle: "للمكاتب الكبيرة والمؤسسات القانونية",
-        price: "حسب الطلب",
-        features: [
-            "كل مميزات الباقة الاحترافية",
-            "عدد مستخدمين غير محدود",
-            "تخزين غير محدود",
-            "تخصيص كامل للنظام",
-            "ربط مع الأنظمة الخارجية",
-            "نسخ احتياطي يومي",
-            "مدير حساب مخصص",
-        ],
-        buttonText: "تواصل معنا",
-    },
-];
+type Props = {
+    plans1: ApiPlan[];
+};
+export default function PricingSection({ plans1 }: Props) {
 
-function PlanCard({ plan }: { plan: Plan }) {
-    const featured = !!plan.featured;
+    type Plan = {
+        name: string;
+        subtitle: string;
+        price: string;
+        period?: string;
+        features: string[];
+        buttonText: string;
+        featured?: boolean;
+        priceAfterDiscount?: string;
+        offerLabel?: string;
+        _id: string;  // 
+    };
 
-    return (
-        <div
-            className={[
-                "plan-card relative flex min-h-[560px] md:min-h-[620px] flex-col rounded-3xl border bg-linear-to-b p-5 md:p-6 text-white transition-all duration-300",
-                featured
-                    ? "featured-card border-[#d2aa48] from-[#10284d] to-[#091c36] shadow-[0_0_0_1px_rgba(210,170,72,0.35),0_0_24px_rgba(210,170,72,0.18)]"
-                    : "border-[#22385f] from-[#10284d] to-[#091c36] shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
-            ].join(" ")}
-        >
-            {featured && (
-                <div className="badge-popular absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                    <span className="inline-flex rounded-[14px] bg-[#d2aa48] px-6 py-2 text-sm font-bold text-[#0a1b35] shadow-lg">
-                        الأكثر شعبية
-                    </span>
-                </div>
-            )}
+    const plans: Plan[] = (plans1 ?? []).map((p) => ({
+        name: p.name,
+        subtitle: p.description,
+        price: p.monthlyPrice.toString(),
+        priceAfterDiscount: p.offer?.isActive && p.monthlyPriceAfterDiscount
+            ? p.monthlyPriceAfterDiscount.toString()
+            : undefined,
+        offerLabel: p.offer?.isActive ? p.offer.label : undefined,
+        period: `${p.currency} / شهريًا`,
+        features: p.features
+            .filter((f) => f.visible)
+            .map((f) =>
+                f.valueType === "boolean"
+                    ? f.label
+                    : `${f.label}: ${f.defaultValue}`
+            ),
+        buttonText: p.monthlyPrice === 1500 ? "تواصل معنا" : "ابدأ الآن",
+        featured: p.isPopular,
+        _id: p._id,  
+    }));
 
-            <div className="flex flex-1 flex-col">
-                <div className="plan-head pt-4 text-center">
-                    <h3 className="text-[24px] font-extrabold md:text-[28px]">
-                        {plan.name}
-                    </h3>
-                    <p className="mt-2 text-sm text-white/60">{plan.subtitle}</p>
-                </div>
+    function PlanCard({ plan }: { plan: Plan }) {
+        const featured = !!plan.featured;
 
-                <div className="plan-price mt-6 md:mt-8 text-center">
-                    {plan.price === "حسب الطلب" ? (
-                        <div className="text-[28px] font-extrabold text-[#d2aa48] md:text-[40px]">
-                            حسب الطلب
-                        </div>
-                    ) : (
-                        <div className="flex items-end justify-center gap-2">
-                            <span className="text-[42px] font-extrabold leading-none md:text-[54px]">
-                                {plan.price}
+        return (
+            <div
+                className={[
+                    "plan-card relative flex min-h-140 md:min-h-155 flex-col rounded-3xl border bg-linear-to-b p-5 md:p-6 text-white transition-all duration-300",
+                    featured
+                        ? "featured-card border-[#d2aa48] from-[#10284d] to-[#091c36] shadow-[0_0_0_1px_rgba(210,170,72,0.35),0_0_24px_rgba(210,170,72,0.18)]"
+                        : "border-[#22385f] from-[#10284d] to-[#091c36] shadow-[0_10px_25px_rgba(0,0,0,0.18)]",
+                ].join(" ")}
+            >
+                {featured && (
+                    <div className="badge-popular absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
+                        <span className="inline-flex rounded-[14px] bg-[#d2aa48] px-6 py-2 text-sm font-bold text-[#0a1b35] shadow-lg">
+                            الأكثر شعبية
+                        </span>
+                    </div>
+                )}
+
+                <div className="flex flex-1 flex-col">
+                    <div className="plan-head pt-4 text-center">
+                        <h3 className="text-[24px] font-extrabold md:text-[28px]">
+                            {plan.name}
+                        </h3>
+                        <p className="mt-2 text-sm text-white/60">{plan.subtitle}</p>
+                    </div>
+
+                    <div className="plan-price mt-6 md:mt-8 text-center">
+                        {plan.offerLabel && (
+                            <span className="mb-2 inline-block rounded-full bg-red-500/20 px-3 py-1 text-xs font-bold text-red-400">
+                                🎉 {plan.offerLabel}
                             </span>
-                            <span className="mb-1 text-base text-white/70">
-                                {plan.period}
-                            </span>
-                        </div>
-                    )}
-                </div>
+                        )}
 
-                <ul className="mt-6 space-y-3 text-right md:mt-8 md:space-y-4">
-                    {plan.features.map((feature, index) => (
-                        <li
-                            key={feature}
-                            className="feature-row flex items-center justify-start gap-3 text-[14px] text-white md:text-[15px]"
-                            data-index={index}
+                        {plan.price === "حسب الطلب" ? (
+                            <div className="text-[28px] font-extrabold text-[#d2aa48] md:text-[40px]">
+                                حسب الطلب
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center gap-1">
+                                {plan.priceAfterDiscount ? (
+                                    <>
+                                        {/* السعر القديم مشطوب */}
+                                        <span className="text-lg text-white/40 line-through">
+                                            {plan.price} {plan.period}
+                                        </span>
+                                        {/* السعر الجديد */}
+                                        <div className="flex items-end justify-center gap-2">
+                                            <span className="text-[42px] font-extrabold leading-none text-[#d2aa48] md:text-[54px]">
+                                                {plan.priceAfterDiscount}
+                                            </span>
+                                            <span className="mb-1 text-base text-white/70">
+                                                {plan.period}
+                                            </span>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex items-end justify-center gap-2">
+                                        <span className="text-[42px] font-extrabold leading-none md:text-[54px]">
+                                            {plan.price}
+                                        </span>
+                                        <span className="mb-1 text-base text-white/70">
+                                            {plan.period}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                    <ul className="mt-6 space-y-3 text-right md:mt-8 md:space-y-4">
+                        {plan.features.map((feature, index) => (
+                            <li
+                                key={feature}
+                                className="feature-row flex items-center justify-start gap-3 text-[14px] text-white md:text-[15px]"
+                                data-index={index}
+                            >
+                                <FaRegCheckCircle className="shrink-0 text-[#d2aa48]" />
+                                <span>{feature}</span>
+                            </li>
+                        ))}
+                    </ul>
+
+                    <div className="mt-auto pt-6">
+                        {/* href={`/RegesterPlan/${plan._id}`} */}
+                        <button
+                            className={[
+                                "plan-btn h-12 md:h-14 w-full rounded-[10px] border text-sm md:text-base font-bold transition",
+                                featured
+                                    ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
+                                    : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
+                            ].join(" ")}
                         >
-                            <FaRegCheckCircle className="shrink-0 text-[#d2aa48]" />
-                            <span>{feature}</span>
-                        </li>
-                    ))}
-                </ul>
-
-                <div className="mt-auto pt-6">
-                    <button
-                        className={[
-                            "plan-btn h-12 md:h-14 w-full rounded-[10px] border text-sm md:text-base font-bold transition",
-                            featured
-                                ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
-                                : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
-                        ].join(" ")}
-                    >
-                        {plan.buttonText}
-                    </button>
+                            {plan.buttonText}
+                        </button>
+                        
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-}
-
-export default function PricingSection() {
+        );
+    }
     const sectionRef = useRef<HTMLElement | null>(null);
 
     useGSAP(
@@ -278,7 +311,6 @@ export default function PricingSection() {
 
     return (
         <section
-            ref={sectionRef}
             id="pricing"
             dir="rtl"
             className="overflow-hidden bg-[#071a33] px-4 py-20 text-white md:px-8 lg:px-12"
