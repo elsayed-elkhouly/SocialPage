@@ -10,28 +10,28 @@ import Fiamge from "./../../../public/resized_image.png"
 
 export default function HeroSection() {
   const fadeUp = {
-  hidden: { opacity: 0, y: 50 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.9,
+    hidden: { opacity: 0, y: 50 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.9,
+      },
     },
-  },
-};
+  };
 
-const fadeLeft: Variants = {
-  hidden: { opacity: 0, x: 60, scale: 0.96 },
-  show: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-    transition: {
-      duration: 0.9,
-      ease: "easeOut",
+  const fadeLeft: Variants = {
+    hidden: { opacity: 0, x: 60, scale: 0.96 },
+    show: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.9,
+        ease: "easeOut",
+      },
     },
-  },
-};
+  };
   return (
     <section
       dir="rtl"
@@ -112,7 +112,8 @@ const fadeLeft: Variants = {
           >
             <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.97 }}>
               <Link
-                href="https://wa.me/201101063100?text=مرحباً، أريد التحدث مع فريق المبيعات"
+                href={"https://app.helperlawyer.online/Login"}
+                target="_blank"
                 className="inline-flex min-w-42.5 items-center justify-center rounded-xl bg-[#c9a24a] px-8 py-4 text-base font-bold text-[#061937] transition hover:opacity-90"
               >
                 ابدأ الآن
@@ -144,13 +145,12 @@ const fadeLeft: Variants = {
                   initial={{ opacity: 0, scale: 0.7 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.8 + item * 0.12, duration: 0.35 }}
-                  className={`h-10 w-10 rounded-full border-2 border-white ${
-                    item === 0
-                      ? "bg-[#d9d9d9]"
-                      : item === 1
-                        ? "bg-[#cfcfcf]"
-                        : "bg-[#bfbfbf]"
-                  }`}
+                  className={`h-10 w-10 rounded-full border-2 border-white ${item === 0
+                    ? "bg-[#d9d9d9]"
+                    : item === 1
+                      ? "bg-[#cfcfcf]"
+                      : "bg-[#bfbfbf]"
+                    }`}
                 />
               ))}
             </div>
