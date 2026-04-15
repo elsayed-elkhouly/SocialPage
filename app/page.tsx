@@ -29,7 +29,7 @@ import Footer from "./_Componts/Footer/Footer";
 import FeaturesCarouselSection from "./_Componts/FeaturesCarouselSection/FeaturesCarouselSection";
 import HeroSection from "./_Componts/HeroSection/HeroSection";
 import HowItWorksSection from "./_Componts/HowItWorksSection/HowItWorksSection";
-import ReviewsSection from "./_Componts/ReviewsSection";
+import ReviewsSection from "./_Componts/ReviewsSection/ReviewsSection";
 import PricingSection from "./_Componts/PricingSection/PricingSection";
 import getAllPlans from "@/apis/getpalns";
 
