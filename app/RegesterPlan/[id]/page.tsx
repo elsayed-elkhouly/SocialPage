@@ -14,9 +14,9 @@ type FormData = {
   officeName: string;
   planId: string;
   billingInterval: "monthly" | "yearly";
-  couponCode: string;
-  saveCard: boolean;
-  paymentMethod: "card" | "cash";
+  // couponCode: string;
+  // saveCard: boolean;
+  // paymentMethod: "card" | "cash";
 };
 const page = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,12 +26,13 @@ const page = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
       planId: `${id}`,
-      saveCard: false,
-      couponCode: "",
+      // saveCard: false,
+      // couponCode: "",
     },
   });
 
@@ -45,18 +46,35 @@ const page = () => {
       officeName: data.officeName,
       planId: id,
       billingInterval: data.billingInterval,
-      couponCode: data.couponCode,
-      saveCard: data.saveCard,
-      paymentMethod: data.paymentMethod,
+      // couponCode: data.couponCode,
+      // saveCard: data.saveCard,
+      // paymentMethod: data.paymentMethod,
     };
     try {
       const res = await axios.post(
-        "https://damaged-attitudes-civilian-easier.trycloudflare.com/subscription/register",
+        "https://api.helperlawyer.online/subscription/register",
         payload
       );
+
       console.log("تم التسجيل:", res.data);
+      // رقم الواتساب بصيغة دولية بدون +
+      const whatsappNumber = "201101063100";
+
+      // رسالة جاهزة
+      const message = `مرحبًا، تم تسجيل عميل جديد.
+الاسم: ${data.UserName}
+الإيميل: ${data.email}
+الهاتف: ${data.phone}
+اسم المكتب: ${data.officeName}`;
+
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+        message
+      )}`;
+
+      window.open(whatsappUrl, "_blank");
+      reset()
     } catch (error: any) {
-      console.log("error response:", error.response?.data);
+      console.log("error response:", error.response);
     }
 
 
@@ -225,7 +243,7 @@ const page = () => {
           </div>
 
           {/* طريقة الدفع */}
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <label className="block mb-2">طريقة الدفع</label>
             <select
               {...register("paymentMethod", { required: " برجاء اختيار طريقه الدفع  " })}
@@ -234,10 +252,10 @@ const page = () => {
               <option value="card">كارت بنكي</option>
               <option value="wallet">محفظةالكترونية</option>
             </select>
-          </div>
+          </div> */}
 
           {/* كوبون الخصم */}
-          <div className="bg-[#0b1120] p-8 flex flex-col items-end gap-4">
+          {/* <div className="bg-[#0b1120] p-8 flex flex-col items-end gap-4">
             <div className="flex items-center gap-2 text-white">
               <span className="text-xl font-bold">كوبون الخصم</span>
               <BsTicketPerforated className="text-[#eab308] text-2xl" />
@@ -256,7 +274,7 @@ const page = () => {
                 className="flex-1 bg-[#1e293b]/50 border border-transparent focus:border-gray-600 text-right text-gray-300 px-4 py-3 rounded-xl outline-none placeholder:text-gray-500"
               />
             </div>
-          </div>
+          </div> */}
 
           {/* زر الحفظ */}
           <button

@@ -15,6 +15,7 @@ type ApiPlan = {
     description: string;
     monthlyPrice: number;
     yearlyPrice: number;
+    yearlyPriceAfterDiscount?: number;
     currency: string;
     monthlyPriceAfterDiscount?: number;
     offer?: {
@@ -22,6 +23,7 @@ type ApiPlan = {
         discountPercent: number;
         validUntil: string;
         isActive: boolean;
+        applyTo?: "monthly" | "yearly" | "both";
     };
     features: {
         key: string;
@@ -43,25 +45,33 @@ export default function PricingSection({ plans1 }: Props) {
     type Plan = {
         name: string;
         subtitle: string;
-        price: string;
-        period?: string;
+        monthlyPrice: string;
+        monthlyPriceAfterDiscount?: string;
+        yearlyPrice: string;
+        yearlyPriceAfterDiscount?: string;
+        currency: string;
         features: string[];
         buttonText: string;
         featured?: boolean;
-        priceAfterDiscount?: string;
         offerLabel?: string;
-        _id: string;  // 
+        _id: string;
     };
 
-    const plans: Plan[] = (plans1 ?? []).map((p) => ({
+    const plans: Plan[] = (plans1 ?? []).map((p: ApiPlan) => ({
         name: p.name,
         subtitle: p.description,
-        price: p.monthlyPrice.toString(),
-        priceAfterDiscount: p.offer?.isActive && p.monthlyPriceAfterDiscount
-            ? p.monthlyPriceAfterDiscount.toString()
-            : undefined,
+        monthlyPrice: p.monthlyPrice.toString(),
+        monthlyPriceAfterDiscount:
+            p.offer?.isActive && p.monthlyPriceAfterDiscount
+                ? p.monthlyPriceAfterDiscount.toString()
+                : undefined,
+        yearlyPrice: p.yearlyPrice.toString(),
+        yearlyPriceAfterDiscount:
+            p.offer?.isActive && p.yearlyPriceAfterDiscount
+                ? p.yearlyPriceAfterDiscount.toString()
+                : undefined,
         offerLabel: p.offer?.isActive ? p.offer.label : undefined,
-        period: `${p.currency} / شهريًا`,
+        currency: p.currency,
         features: p.features
             .filter((f) => f.visible)
             .map((f) =>
@@ -71,8 +81,10 @@ export default function PricingSection({ plans1 }: Props) {
             ),
         buttonText: p.monthlyPrice === 1500 ? "تواصل معنا" : "ابدأ الآن",
         featured: p.isPopular,
-        _id: p._id,  
+        _id: p._id,
     }));
+
+
 
     function PlanCard({ plan }: { plan: Plan }) {
         const featured = !!plan.featured;
@@ -104,45 +116,62 @@ export default function PricingSection({ plans1 }: Props) {
 
                     <div className="plan-price mt-6 md:mt-8 text-center">
                         {plan.offerLabel && (
-                            <span className="mb-2 inline-block rounded-full bg-red-500/20 px-3 py-1 text-xs font-bold text-red-400">
+                            <span className="mb-3 inline-block rounded-full bg-red-500/20 px-3 py-1 text-xs font-bold text-red-400">
                                 🎉 {plan.offerLabel}
                             </span>
                         )}
 
-                        {plan.price === "حسب الطلب" ? (
-                            <div className="text-[28px] font-extrabold text-[#d2aa48] md:text-[40px]">
-                                حسب الطلب
+                        <div className="space-y-4">
+                            {/* السعر الشهري */}
+                            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                <div className="mb-2 text-sm text-white/60">
+                                    السعر الشهري
+                                </div>
+
+
+                                <div className="flex items-end justify-center gap-2">
+                                    <span className="text-[34px] font-extrabold leading-none md:text-[42px]">
+                                        {plan.monthlyPrice}
+                                    </span>
+                                    <span className="mb-1 text-sm text-white/70">
+                                        {plan.currency} / شهريًا
+                                    </span>
+                                </div>
+
                             </div>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center gap-1">
-                                {plan.priceAfterDiscount ? (
+
+                            {/* السعر السنوي */}
+                            <div className="rounded-2xl border border-[#d2aa48]/30 bg-[#d2aa48]/5 p-4">
+                                <div className="mb-2 text-sm text-white/60">
+                                    السعر السنوي
+                                </div>
+
+                                {plan.yearlyPriceAfterDiscount ? (
                                     <>
-                                        {/* السعر القديم مشطوب */}
-                                        <span className="text-lg text-white/40 line-through">
-                                            {plan.price} {plan.period}
-                                        </span>
-                                        {/* السعر الجديد */}
+                                        <div className="mb-2 text-base text-white/40 line-through">
+                                            {plan.yearlyPrice} {plan.currency} / سنويًا
+                                        </div>
                                         <div className="flex items-end justify-center gap-2">
-                                            <span className="text-[42px] font-extrabold leading-none text-[#d2aa48] md:text-[54px]">
-                                                {plan.priceAfterDiscount}
+                                            <span className="text-[34px] font-extrabold leading-none text-[#d2aa48] md:text-[42px]">
+                                                {plan.yearlyPriceAfterDiscount}
                                             </span>
-                                            <span className="mb-1 text-base text-white/70">
-                                                {plan.period}
+                                            <span className="mb-1 text-sm text-white/70">
+                                                {plan.currency} / سنويًا
                                             </span>
                                         </div>
                                     </>
                                 ) : (
                                     <div className="flex items-end justify-center gap-2">
-                                        <span className="text-[42px] font-extrabold leading-none md:text-[54px]">
-                                            {plan.price}
+                                        <span className="text-[34px] font-extrabold leading-none md:text-[42px]">
+                                            {plan.yearlyPrice}
                                         </span>
-                                        <span className="mb-1 text-base text-white/70">
-                                            {plan.period}
+                                        <span className="mb-1 text-sm text-white/70">
+                                            {plan.currency} / سنويًا
                                         </span>
                                     </div>
                                 )}
                             </div>
-                        )}
+                        </div>
                     </div>
 
                     <ul className="mt-6 space-y-3 text-right md:mt-8 md:space-y-4">
@@ -159,18 +188,18 @@ export default function PricingSection({ plans1 }: Props) {
                     </ul>
 
                     <div className="mt-auto pt-6">
-                        {/* href={`/RegesterPlan/${plan._id}`} */}
-                        <button
-                            className={[
-                                "plan-btn h-12 md:h-14 w-full rounded-[10px] border text-sm md:text-base font-bold transition",
-                                featured
-                                    ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
-                                    : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
-                            ].join(" ")}
-                        >
-                            {plan.buttonText}
-                        </button>
-                        
+                        <Link href={`/RegesterPlan/${plan._id}`}>
+                            <button
+                                className={[
+                                    "plan-btn h-12 md:h-14 w-full rounded-[10px] border text-sm md:text-base font-bold transition",
+                                    featured
+                                        ? "border-[#d2aa48] bg-[#d2aa48] text-[#0a1b35] hover:opacity-90"
+                                        : "border-[#2a4167] bg-[#112746] text-white hover:border-[#d2aa48]/60 hover:text-[#f2d27a]",
+                                ].join(" ")}
+                            >
+                                {plan.buttonText}
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
