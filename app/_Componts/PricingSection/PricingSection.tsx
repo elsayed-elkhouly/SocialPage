@@ -57,37 +57,38 @@ export default function PricingSection({ plans1 }: Props) {
         _id: string;
     };
 
-    const plans: Plan[] = (plans1 ?? []).map((p: ApiPlan) => ({
-        name: p.name,
-        subtitle: p.description,
-        monthlyPrice: p.monthlyPrice.toString(),
-        monthlyPriceAfterDiscount:
-            p.offer?.isActive && p.monthlyPriceAfterDiscount
-                ? p.monthlyPriceAfterDiscount.toString()
-                : undefined,
-        yearlyPrice: p.yearlyPrice.toString(),
-        yearlyPriceAfterDiscount:
-            p.offer?.isActive && p.yearlyPriceAfterDiscount
-                ? p.yearlyPriceAfterDiscount.toString()
-                : undefined,
-        offerLabel: p.offer?.isActive ? p.offer.label : undefined,
-        currency: p.currency,
-        features: p.features
-            .filter((f) => f.visible)
-            .map((f) =>
-                f.valueType === "boolean"
-                    ? f.label
-                    : `${f.label}: ${f.defaultValue}`
-            ),
-        buttonText: p.monthlyPrice === 1500 ? "تواصل معنا" : "ابدأ الآن",
-        featured: p.isPopular,
-        _id: p._id,
-    }));
+   const plans: Plan[] = (plans1 ?? []).map((p: ApiPlan) => ({
+    name: p.name,
+    subtitle: p.description,
+    monthlyPrice: p.monthlyPrice.toString(),
+    monthlyPriceAfterDiscount:
+        p.offer?.isActive && p.monthlyPriceAfterDiscount
+            ? p.monthlyPriceAfterDiscount.toString()
+            : undefined,
+    yearlyPrice: p.yearlyPrice.toString(),
+    yearlyPriceAfterDiscount:
+        p.offer?.isActive && p.yearlyPriceAfterDiscount
+            ? p.yearlyPriceAfterDiscount.toString()
+            : undefined,
+    offerLabel: p.offer?.isActive ? p.offer.label : undefined,
+    currency: p.currency,
+    features: p.features
+        .filter((f) => f.visible)
+        .map((f) =>
+            f.valueType === "boolean"
+                ? f.label
+                : `${f.label}: ${f.defaultValue}`
+        ),
+    buttonText: p.monthlyPrice === 1500 ? "تواصل معنا" : "ابدأ الآن",
+    featured: p.isPopular,
+    _id: p._id,
+}));
 
 
+function PlanCard({ plan }: { plan?: Plan }) {
+       if (!plan) return null;
 
-    function PlanCard({ plan }: { plan: Plan }) {
-        const featured = !!plan.featured;
+  const featured = !!plan.featured;
 
         return (
             <div

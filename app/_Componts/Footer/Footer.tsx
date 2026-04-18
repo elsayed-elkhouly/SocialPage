@@ -42,8 +42,8 @@ const Footer = () => {
               <div className="mb-5 flex items-center gap-3">
                 <Scale className="h-6 w-6 text-[#d2aa48]" />
                 <span className="text-3xl font-extrabold tracking-tight">
-                  هيلبر للمحاماة
-                </span>
+                  lexora               
+                   </span>
               </div>
 
               <p className="max-w-sm text-sm leading-8 text-white/65">
