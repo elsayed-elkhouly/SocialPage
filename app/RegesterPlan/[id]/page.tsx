@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { BsTicketPerforated } from 'react-icons/bs';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { toast } from 'sonner';
 type FormData = {
   subdomain: string;
   email: string;
@@ -70,11 +71,12 @@ const page = () => {
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
         message
       )}`;
-
+      toast("done" ,{ position: "top-center" ,duration:2000 })
       window.open(whatsappUrl, "_blank");
       reset()
     } catch (error: any) {
-      console.log("error response:", error.response);
+      toast.error(error?.response?.data?.message,{ position: "top-center" })
+      console.log("error response:", error?.response?.data?.message);
     }
 
 

@@ -14,8 +14,8 @@ const NavBar = () => {
       <div className="mx-auto flex h-18 max-w-360 items-center justify-between px-6 md:px-10">
         <div className="flex items-center gap-2">
           <Scale className="h-5 w-5 text-[#d4a63f]" />
-          <Link href={""} className="text-base font-bold tracking-tight">
-            هيلبر للمحاماة
+          <Link href={""} className=" font-bold tracking-tight text-2xl">
+            lexora
           </Link >
         </div>
 
