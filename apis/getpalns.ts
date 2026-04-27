@@ -1,7 +1,16 @@
 export default async function getAllPlans() {
-  const respons = await fetch("https://api.helperlawyer.online/subscription/plans/public",
-    { next: { revalidate: 60 } }
-  )
-  const data = await respons.json()
-  return data.plans
+  const response = await fetch(
+    "https://api.helperlawyer.online/subscription/plans/public",
+    {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch plans");
+  }
+
+  const data = await response.json();
+  return data.plans;
 }

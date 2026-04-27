@@ -33,6 +33,9 @@ import ReviewsSection from "./_Componts/ReviewsSection/ReviewsSection";
 import PricingSection from "./_Componts/PricingSection/PricingSection";
 import getAllPlans from "@/apis/getpalns";
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 export default async function Home() {
   const features3 = [
     "حجز فوري من الموقع الإلكتروني",
