@@ -42,8 +42,8 @@ const Footer = () => {
               <div className="mb-5 flex items-center gap-3">
                 <Scale className="h-6 w-6 text-[#d2aa48]" />
                 <span className="text-3xl font-extrabold tracking-tight">
-                  lexora               
-                   </span>
+                  lexora
+                </span>
               </div>
 
               <p className="max-w-sm text-sm leading-8 text-white/65">
@@ -132,7 +132,7 @@ const Footer = () => {
                   <div>
                     <p className="mb-1 text-sm text-white/55">العنوان</p>
                     <p className="text-base text-white">
-                      البحيرة - كفر الدوار - ش المحكمة
+                     مصر - Egypt
                     </p>
                   </div>
                 </div>
@@ -143,7 +143,7 @@ const Footer = () => {
 
         <div className="border-t border-[#22385f]">
           <div className="mx-auto flex  flex-col items-center justify-between gap-4 px-4 py-5 text-sm text-white/55 md:flex-row md:px-8 lg:px-12">
-            <p>© ٢٠٢٥ مؤسسة هيلبر للمحاماة. جميع الحقوق محفوظة</p>
+            <p> جميع الحقوق محفوظة © ٢٠٢٥ شركه Helper 10 </p>
 
             <Link
               href="#"
